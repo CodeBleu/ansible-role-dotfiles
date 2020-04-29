@@ -1,0 +1,21 @@
+---
+
+- name: Gather package_facts
+  package_facts:
+    manager: "auto"
+
+- name: Ensure Vundle.vim repository is cloned locally.
+  git:
+    repo: "{{ vundle_repo }}"
+    dest: "{{ vundle_repo_local_destination }}"
+    version: "{{ vundle_repo_version }}"
+    accept_hostkey: "{{ dotfiles_repo_accept_hostkey }}"
+
+- name: Check if VIM is installed and update Plugins
+  block:
+  - name: Install / Update VIM plugins
+    command: vim -E -s -u "~/.vimrc" +PluginUpdate +qall
+    register: vimresult
+    failed_when: ( vimresult.rc > 1 )
+  when: "'vim' in ansible_facts.packages or 'vim-minimal' in ansible_facts.packages"
+  tags: [never, vim_plugins]

@@ -1,0 +1,16 @@
+---
+
+- name: Install needed packages (git, vim)
+  package:
+    name:
+      - git
+      - vim
+    state: latest
+  become: true
+
+- name: Install dotfiles
+  include: dotfiles.yml
+  become_user: "{{ ansible_user_id }}"
+
+- name: Install / Update VIM plugins
+  include: vim.yml

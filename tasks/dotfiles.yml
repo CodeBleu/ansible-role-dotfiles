@@ -1,0 +1,73 @@
+---
+
+- name: Git repo stuff
+  block:
+  - name: Ensure dotfiles repository is cloned locally.
+    git:
+      repo: "{{ dotfiles_repo }}"
+      dest: "{{ dotfiles_repo_local_destination }}"
+      version: "{{ dotfiles_repo_version }}"
+      accept_hostkey: "{{ dotfiles_repo_accept_hostkey }}"
+  when: dotfiles_repo_update|bool
+
+- name: Ensure all configured dotfiles are links.
+  command: "ls -F {{ dotfiles_home }}/{{ item }}"
+  register: existing_dotfile_info
+  failed_when: false
+  check_mode: false
+  changed_when: false
+  with_items: "{{ dotfiles_files }}"
+
+- name: Ensure all bash files are links.
+  command: "ls -F {{ bash_files_dir }}/{{ item }}"
+  register: existing_bashfile_info
+  failed_when: false
+  check_mode: false
+  changed_when: false
+  with_items: "{{ bash_files }}"
+
+- name: Remove existing dotfiles file if a replacement is being linked.
+  file:
+    path: "{{ dotfiles_home }}/{{ dotfiles_files[item.0] }}"
+    state: absent
+  when: "'@' not in item.1.stdout"
+  with_indexed_items: "{{ existing_dotfile_info.results }}"
+
+- name: Remove existing bash files if a replacement is being linked.
+  file:
+    path: "{{ bash_files_dir }}/{{ bash_files[item.0] }}"
+    state: absent
+  when: "'@' not in item.1.stdout"
+  with_indexed_items: "{{ existing_bashfile_info.results }}"
+
+- name: Link dotfiles into home folder.
+  file:
+    src: "{{ dotfiles_repo_local_destination }}/{{ item }}"
+    dest: "{{ dotfiles_home }}/{{ item }}"
+    state: link
+  with_items: "{{ dotfiles_files }}"
+
+- name: Update gitconfig author info
+  template:
+    src: gitconfig.j2
+    dest: "{{ dotfiles_repo_local_destination }}/.gitconfig"
+
+- name: Check if {{ bash_files_dir }} exist
+  stat:
+    path: "{{ bash_files_dir }}"
+  register: bash_dir
+
+- name: Create {{ bash_files_dir }} if doesnt exist
+  file:
+    path: "{{ bash_files_dir }}"
+    state: directory
+    group: "{{ ansible_user_id }}"
+    owner: "{{ ansible_user_id }}"
+  when: bash_dir.stat.exists == false 
+
+- name: Link bash files to {{ bash_files_dir }}
+  file:
+    src: "{{ dotfiles_repo_local_destination }}/git-prompt.sh"
+    dest: "{{ bash_files_dir }}/{{ item }}"
+    state: link
+  with_items: "{{ bash_files }}"

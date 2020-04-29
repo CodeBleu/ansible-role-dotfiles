@@ -1,0 +1,24 @@
+---
+dotfiles_repo: "https://github.com/codebleu/dotfiles.git"
+dotfiles_repo_version: master
+dotfiles_repo_accept_hostkey: false
+dotfiles_repo_local_destination: "~/dotfiles"
+dotfiles_repo_update: true
+
+dotfiles_home: "~"
+dotfiles_files:
+  - .tigrc
+  - .gitconfig
+  - .tmux.conf
+  - .zshrc
+  - .vimrc
+  - .bashrc
+
+bash_files_dir: "~/development/bash"
+bash_files:
+  - git-prompt.sh
+
+vundle_repo: "https://github.com/VundleVim/Vundle.vim.git"
+vundle_repo_local_destination: "~/.vim/bundle/Vundle.vim"
+vundle_repo_version: master
+
