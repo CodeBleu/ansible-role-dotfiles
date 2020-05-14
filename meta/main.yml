@@ -6,7 +6,7 @@ galaxy_info:
   author: Jason Hollis
   description: Dotfile installation for UNIX/Linux.
   company:
-  license:
+  license: BSD
   min_ansible_version: 2.2
   platforms:
     - name: GenericUNIX
