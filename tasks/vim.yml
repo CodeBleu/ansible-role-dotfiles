@@ -3,6 +3,7 @@
 - name: Gather package_facts
   package_facts:
     manager: "auto"
+  tags: vim_plugins
 
 - name: Ensure Vundle.vim repository is cloned locally.
   git:
