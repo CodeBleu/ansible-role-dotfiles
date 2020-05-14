@@ -63,7 +63,7 @@
     state: directory
     group: "{{ ansible_user_id }}"
     owner: "{{ ansible_user_id }}"
-  when: bash_dir.stat.exists == false 
+  when: not bash_dir.stat.exists
 
 - name: Link bash files to {{ bash_files_dir }}
   file:
