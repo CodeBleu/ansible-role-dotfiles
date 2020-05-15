@@ -1,0 +1,7 @@
+*/
+
+!/.gitignore
+!/.requirements.yml
+
+!/ansible-role-dotfiles/
+!/ansible-role-dotfiles/**

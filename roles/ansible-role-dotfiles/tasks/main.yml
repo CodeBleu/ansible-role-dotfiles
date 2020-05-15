@@ -9,6 +9,7 @@
   become: true
 
 - name: Install dotfiles
+  become: true
   include: dotfiles.yml
   become_user: "{{ ansible_user_id }}"
 

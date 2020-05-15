@@ -14,9 +14,11 @@
 
 - name: Check if VIM is installed and update Plugins
   block:
-  - name: Install / Update VIM plugins
-    command: vim -E -s -u "~/.vimrc" +PluginUpdate +qall
-    register: vimresult
-    failed_when: ( vimresult.rc > 1 )
-  when: "'vim' in ansible_facts.packages or 'vim-minimal' in ansible_facts.packages"
+    - name: Install / Update VIM plugins
+      command: vim -E -s -u "~/.vimrc" +PluginUpdate +qall
+      register: vimresult
+      failed_when: ( vimresult.rc > 1 )
+  when:
+    - "'vim' in ansible_facts.packages or
+       'vim-minimal' in ansible_facts.packages"
   tags: [never, vim_plugins]
