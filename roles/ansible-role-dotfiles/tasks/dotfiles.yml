@@ -47,10 +47,17 @@
     state: link
   with_items: "{{ dotfiles_files }}"
 
-- name: Update gitconfig author info
-  template:
-    src: gitconfig.j2
-    dest: "{{ dotfiles_repo_local_destination }}/.gitconfig"
+- name: Update gitconfig author
+  lineinfile:
+    path: "~/.gitconfig"
+    regexp: '^\s{4}name ='
+    line: "    name = \"{{ git_name if git_name is defined else ansible_user_id }}\""
+
+- name: Update gitconfig author email
+  lineinfile:
+    path: "~/.gitconfig"
+    regexp: '^\s{4}email ='
+    line: "    email = \"{{ git_email if git_email is defined else ansible_user_id + '@' + ansible_hostname }}\""
 
 - name: Check if {{ bash_files_dir }} exist
   stat:
