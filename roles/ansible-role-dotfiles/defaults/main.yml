@@ -13,6 +13,7 @@ dotfiles_files:
   - .zshrc
   - .vimrc
   - .bashrc
+  - .vintrc.yaml
 
 bash_files_dir: "~/development/bash"
 bash_files:
