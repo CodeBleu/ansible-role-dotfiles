@@ -14,7 +14,3 @@ dotfiles_files:
   - .vimrc
   - .bashrc
   - .vintrc.yaml
-
-vundle_repo: "https://github.com/VundleVim/Vundle.vim.git"
-vundle_repo_local_destination: "~/.vim/bundle/Vundle.vim"
-vundle_repo_version: master

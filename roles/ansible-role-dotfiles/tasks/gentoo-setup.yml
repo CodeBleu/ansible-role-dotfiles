@@ -1,0 +1,31 @@
+---
+
+- name: (Gentoo) Create USE flag dir structure
+  file:
+    path: /etc/portage/package.use/app-editors
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: (Gentoo) Copy USE flag content
+  copy:
+    dest: /etc/portage/package.use/app-editors/vim
+    mode: '0755'
+    owner: root
+    group: root
+    content: |
+      app-editors/vim python terminal
+
+- name: (Gentoo) Install Needed Pacakges
+  package:
+    name:
+      - app-portage/gentoolkit
+      - dev-vcs/git
+      - app-editors/vim
+      - dev-python/pip
+      - dev-python/setuptools
+      - x11-misc/xclip
+    state: installed
+    update: true
+    newuse: true

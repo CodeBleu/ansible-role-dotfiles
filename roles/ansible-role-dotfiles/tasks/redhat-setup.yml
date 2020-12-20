@@ -1,0 +1,9 @@
+---
+
+- name: (RedHat) Install python2 setuptools
+  package:
+    name:
+      - python2-setuptools
+    state: present
+  when:
+    - ansible_distribution_major_version <= '7'

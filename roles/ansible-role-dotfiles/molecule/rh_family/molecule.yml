@@ -28,8 +28,14 @@ lint: |
   yamllint .
 
 platforms:
-  - name: vagrant-gentoo
-    box: generic/gentoo
+  - name: vagrant-centos7
+    box: centos/7
+    memory: 512
+    cpus: 1
+    provider_raw_config_args:
+      - "customize [ 'modifyvm', :id, '--graphicscontroller', 'vmsvga' ]"
+  - name: vagrant-centos8
+    box: geerlingguy/centos8
     memory: 512
     cpus: 1
     provider_raw_config_args:

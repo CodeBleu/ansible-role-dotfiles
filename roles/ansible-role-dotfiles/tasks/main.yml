@@ -1,17 +1,50 @@
 ---
 
-- name: Install needed packages (git, vim)
+- name: (Gentoo) Setup Tasks
+  include: gentoo-setup.yml
+  when: ansible_os_family == "Gentoo"
+  become: true
+
+- name: (RH Family) Setup Tasks
+  include: redhat-setup.yml
+  when: ansible_os_family == "RedHat"
+  become: true
+
+- name: (Debian Family) Setup Tasks
+  include: debian-setup.yml
+  when: ansible_os_family == "Debian"
+  become: true
+
+- name: (ALL OS) Remove Vundle plugin path if exists
+  file:
+    path: "~/.vim/bundle"
+    state: absent
+
+- name: (All OS) Install needed packages (git, vim, pip)
   package:
     name:
       - git
       - vim
+      - python3-pip
+      - python3-setuptools
     state: present
+  when: ansible_os_family != 'Gentoo'
   become: true
 
-- name: Install dotfiles
+- name: (All OS) Copy pip requirements file
+  copy:
+    src: requirements.txt
+    dest: "{{ dotfiles_home }}"
+    mode: '0644'
+
+- name: (All OS) Install needed pip packages
+  pip:
+    requirements: "{{ dotfiles_home }}/requirements.txt"
+    state: present
+    extra_args: --user
+    executable: pip3
+
+- name: (All OS) Install dotfiles
   become: true
   include: dotfiles.yml
   become_user: "{{ ansible_user_id }}"
-
-- name: Install / Update VIM plugins
-  include: vim.yml

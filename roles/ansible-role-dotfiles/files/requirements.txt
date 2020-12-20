@@ -1,0 +1,6 @@
+pylint
+pre-commit
+pylint-venv
+yamllint
+vim-vint
+shellcheck-py

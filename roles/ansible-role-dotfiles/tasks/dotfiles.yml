@@ -2,12 +2,12 @@
 
 - name: Git repo stuff
   block:
-  - name: Ensure dotfiles repository is cloned locally.
-    git:
-      repo: "{{ dotfiles_repo }}"
-      dest: "{{ dotfiles_repo_local_destination }}"
-      version: "{{ dotfiles_repo_version }}"
-      accept_hostkey: "{{ dotfiles_repo_accept_hostkey }}"
+    - name: Ensure dotfiles repository is cloned locally.
+      git:
+        repo: "{{ dotfiles_repo }}"
+        dest: "{{ dotfiles_repo_local_destination }}"
+        version: "{{ dotfiles_repo_version }}"
+        accept_hostkey: "{{ dotfiles_repo_accept_hostkey }}"
   when: dotfiles_repo_update|bool
 
 - name: Ensure all configured dotfiles are links.
@@ -36,10 +36,16 @@
   lineinfile:
     path: "~/.gitconfig"
     regexp: '^\s{4}name ='
-    line: "    name = \"{{ git_name if git_name is defined else ansible_user_id }}\""
+    line: "    name = \"{{
+        git_name if git_name is defined
+        else ansible_user_id
+        }}\""
 
 - name: Update gitconfig author email
   lineinfile:
     path: "~/.gitconfig"
     regexp: '^\s{4}email ='
-    line: "    email = \"{{ git_email if git_email is defined else ansible_user_id + '@' + ansible_hostname }}\""
+    line: "    email = \"{{
+        git_email if git_email is defined
+        else ansible_user_id + '@' + ansible_hostname
+        }}\""

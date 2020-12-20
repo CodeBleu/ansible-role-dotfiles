@@ -25,12 +25,12 @@ This ensurse files are in place for custom git prompt (.bashrc would need to be 
     dotfiles_repo_version: master
 
 The git repository and branch/tag/commit hash to use for retrieving dotfiles. Dotfiles should generally be laid out within the root directory of the repository.
-    
+
     vundle_repo: "https://github.com/VundleVim/Vundle.vim.git"
     vundle_repo_version: master
 
 The git repository and branch/tag/commit hash to use for retrieving vim plugin manager.
-    
+
     vundle_repo_local_destination: "~/.vim/bundle/Vundle.vim"
 
 The destination directory used form Vundle.vim plugin manager
