@@ -1,5 +1,5 @@
 ---
-dotfiles_repo: "https://github.com/codebleu/dotfiles.git"
+dotfiles_repo: "https://github.com/CodeBleu/dotfiles.git"
 dotfiles_repo_version: master
 dotfiles_repo_accept_hostkey: false
 dotfiles_repo_local_destination: "~/dotfiles"
