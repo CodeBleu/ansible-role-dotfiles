@@ -2,7 +2,8 @@
 
 - name: Git repo stuff
   block:
-    - name: Ensure dotfiles repository is cloned locally.
+    - name: "Cloning dotfiles [ {{ dotfiles_repo_version }} ]
+            repository locally."
       git:
         repo: "{{ dotfiles_repo }}"
         dest: "{{ dotfiles_repo_local_destination }}"
