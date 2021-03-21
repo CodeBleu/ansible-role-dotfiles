@@ -17,6 +17,12 @@
     content: |
       app-editors/vim python terminal
 
+- name: (Gentoo) Install gentoolkit first
+  command: emerge gentoolkit
+  changed_when: false
+
+# For some reason equery is needed to perform installs now
+# So above 'install gentoolkit first' is needed
 - name: (Gentoo) Install Needed Pacakges
   package:
     name:
