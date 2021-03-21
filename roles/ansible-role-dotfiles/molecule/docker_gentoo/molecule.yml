@@ -1,0 +1,36 @@
+---
+scenario:
+  default:
+  test_sequence:
+    - lint
+    - destroy
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - side_effect
+    - verify
+    - destroy
+
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: Gentoo
+    image: gentoo/stage3
+lint: |
+  ansible-lint
+  yamllint .
+provisioner:
+  name: ansible
+  inventory:
+    host_vars:
+      Gentoo:
+        ansible_user: ansible
+        git_name: "Jason Hollis"
+        git_email: "jhollis@jdubb.net"
+verifier:
+  name: ansible

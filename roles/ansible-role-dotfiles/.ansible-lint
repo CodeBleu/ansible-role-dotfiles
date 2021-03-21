@@ -1,0 +1,5 @@
+warn_list:
+- role-name
+skip_list:
+- meta-no-info
+- meta-incorrect

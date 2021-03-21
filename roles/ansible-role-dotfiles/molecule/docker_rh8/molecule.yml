@@ -1,0 +1,36 @@
+---
+scenario:
+  default:
+  test_sequence:
+    - lint
+    - destroy
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - side_effect
+    - verify
+    - destroy
+
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: Cent8
+    image: docker.io/pycontribs/centos:8
+    pre_build_image: true
+lint: |
+  ansible-lint
+  yamllint .
+provisioner:
+  name: ansible
+  inventory:
+    host_vars:
+      Cent8:
+        git_name: "Jason Hollis"
+        git_email: "jhollis@jdubb.net"
+verifier:
+  name: ansible

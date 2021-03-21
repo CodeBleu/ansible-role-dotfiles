@@ -1,0 +1,71 @@
+---
+variables:
+  GIT_NAME: "Jason Hollis"
+  GIT_EMAIL: "jhollis@jdubb.net"
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  paths:
+    - .cache/pip
+    - ans296/
+    - ans2912/
+
+stages:
+  - prepare
+  - venv
+  - test
+
+
+prepare:
+  stage: prepare
+  script:
+    - sudo apt-get -y install virtualenv python3
+    - python3 -V
+    - docker -v
+
+ans296:venv:
+  stage: venv
+  script:
+    - virtualenv ans296
+    - pip3 install ansible==2.9.6
+    - pip3 install -r requirements.txt
+    - ansible --version
+    - molecule --version
+  needs: ["prepare"]
+
+ans2912:venv:
+  stage: venv
+  script:
+    - virtualenv ans2912
+    - pip3 install ansible==2.9.12
+    - pip3 install -r requirements.txt
+    - ansible --version
+    - molecule --version
+  needs: ["prepare"]
+
+ans296:docker_gentoo:test:
+  stage: test
+  variables:
+    PY_COLORS: 1
+  script:
+    - cd $CI_PROJECT_DIR/roles/$CI_PROJECT_NAME && molecule test -s docker_gentoo
+  needs: ["ans296:venv"]
+  only:
+    changes:
+      - roles/$CI_PROJECT_NAME/**/*
+
+ans296:docker_rh8:test:
+  stage: test
+  variables:
+    PY_COLORS: 1
+  script:
+    - cd $CI_PROJECT_DIR/roles/$CI_PROJECT_NAME && molecule test -s docker_rh8
+  needs: ["ans296:venv"]
+
+ans2912:docker_rh8:test:
+  stage: test
+  variables:
+    PY_COLORS: 1
+  script:
+    - cd $CI_PROJECT_DIR/roles/$CI_PROJECT_NAME && molecule test -s docker_rh8
+  needs: ["ans2912:venv"]
