@@ -31,6 +31,6 @@ provisioner:
       Gentoo:
         ansible_user: ansible
         git_name: "Jason Hollis"
-        git_email: "jhollis@jdubb.net"
+        git_email: "400979+CodeBleu@users.noreply.github.com"
 verifier:
   name: ansible

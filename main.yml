@@ -11,7 +11,7 @@
 
     - name: git_email
       prompt: "What email do you want to use for git global email addr?"
-      default: jhollis@jdubb.net
+      default: 400979+CodeBleu@users.noreply.github.com
       private: false
 
   roles:
